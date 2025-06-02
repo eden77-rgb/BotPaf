@@ -10,11 +10,11 @@ class serviceYoutube:
             'no_warnings': True,
             'default_search': 'ytsearch'
         }
-        self.ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
+        self._ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
 
     def search(self, query):
         try:
-            results = self.ytdl.extract_info(f"ytsearch:{query}", download=False)
+            results = self._ytdl.extract_info(f"ytsearch:{query}", download=False)
             entry = results["entries"][0]
             return {
                 "title": entry["title"],

@@ -4,34 +4,34 @@ from services.serviceYoutube import serviceYoutube
 
 class serviceDiscord:
     def __init__(self, token):
-        self.token = token
+        self._token = token
 
-        intents = discord.Intents.default()
-        intents.message_content = True
+        _intents = discord.Intents.default()
+        _intents.message_content = True
 
-        self.bot = commands.Bot(command_prefix="?", intents=intents)
-        self.youtube = serviceYoutube()
+        self._bot = commands.Bot(command_prefix="!", intents=_intents)
+        self._youtube = serviceYoutube()    
 
         self.setup_events()
         self.setup_commands()
 
     def setup_events(self):
-        @self.bot.event
+        @self._bot.event
         async def on_ready():
-            print(f"Connecté en tant que {self.bot.user.name}")
+            print(f"Connecté en tant que {self._bot.user.name}")
 
     def setup_commands(self):
-        @self.bot.command()
-        async def ping(ctx):
-            await ctx.send("Pong!")
+        @self._bot.command()
+        async def aide(ctx):
+            await ctx.send("!play [nom musique]: pour obtenir le lien youtube")
 
-        @self.bot.command()
+        @self._bot.command()
         async def play(ctx, *, search):
-            result = self.youtube.search(search)
+            result = self._youtube.search(search)
             if result:
                 await ctx.send(f"Voici ce que j'ai trouvé pour **{search}** :\n{result['title']}\n{result['url']}")
             else:
                 await ctx.send("Désolé, je n'ai rien trouvé.")
 
     def run(self):
-        self.bot.run(self.token)
+        self._bot.run(self._token)
